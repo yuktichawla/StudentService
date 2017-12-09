@@ -1,6 +1,7 @@
 package com.steerlean.controller;
 
 import com.steerlean.model.Course;
+import com.steerlean.model.Student;
 import com.steerlean.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,16 @@ public class StudentController {
     public Course retrieveDetailsForCourse(@PathVariable String studentId,
                                            @PathVariable String courseId) {
         return studentService.retrieveCourse(studentId, courseId);
+    }
+
+    @GetMapping("/student/{studentId}")
+    public Student retrieveStudent(@PathVariable String studentId) {
+        return studentService.retrieveStudent(studentId);
+    }
+
+    @GetMapping("/students")
+    public List<Student> retrieveAllStudents() {
+        return studentService.retrieveAllStudents();
     }
 
     @PostMapping("/students/{studentId}/courses")
