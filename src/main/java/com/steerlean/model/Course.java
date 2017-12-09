@@ -9,11 +9,6 @@ public class Course implements Serializable {
     private String description;
     private List<String> steps;
 
-    // Needed by Caused by: com.fasterxml.jackson.databind.JsonMappingException:
-    public Course() {
-
-    }
-
     public Course(String id, String name, String description, List<String> steps) {
         super();
         this.id = id;

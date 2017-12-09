@@ -17,6 +17,9 @@ import org.springframework.data.redis.serializer.GenericToStringSerializer;
 @ComponentScan({"com.steerlean.queue", "com.steerlean.service", "com.steerlean.config"})
 public class RedisConfig {
 
+    @Autowired
+    private RedisMessagePublisher redisMessagePublisher;
+
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
         return new JedisConnectionFactory();
@@ -42,9 +45,6 @@ public class RedisConfig {
         container.addMessageListener(messageListener(), topic());
         return container;
     }
-
-    @Autowired
-    private RedisMessagePublisher redisMessagePublisher;
 
     @Bean
     ChannelTopic topic() {
