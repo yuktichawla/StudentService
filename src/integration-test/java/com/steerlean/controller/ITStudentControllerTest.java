@@ -2,6 +2,7 @@ package com.steerlean.controller;
 
 import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+import java.util.Map;
+
 import static io.restassured.RestAssured.when;
+import static io.restassured.path.json.JsonPath.from;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -32,5 +37,46 @@ public class ITStudentControllerTest {
                 statusCode(HttpStatus.OK.value()).
                 body("name", Matchers.is("Spring")).
                 body("description", Matchers.is("10 Steps"));
+    }
+
+    @Test
+    public void testRetrieveCoursesForStudent() {
+        when().
+                get("/students/{studentId}/courses", "Student1").
+                then().
+                statusCode(HttpStatus.OK.value()).
+                body("name", Matchers.hasItems("Spring", "Spring MVC", "Spring Boot", "Maven")).
+                body("description", Matchers.hasItems("10 Steps", "10 Examples", "6K Students", "Most popular maven course on internet!"));
+    }
+
+    @Test
+    public void testRetrieveCoursesForStudent_Strict() {
+        String coursesJsonStr = when().get("/students/{studentId}/courses", "Student1").asString();
+        io.restassured.path.json.JsonPath from = from(coursesJsonStr);
+        Map<String, Object> firstCourse = from.get("[0]");
+        List<Object> responseJsonObjectList = from.get();
+        Assert.assertEquals(4, responseJsonObjectList.size());
+        Assert.assertEquals("Spring", firstCourse.get("name"));
+        Assert.assertEquals("10 Steps", firstCourse.get("description"));
+    }
+
+    @Test
+    public void testRetrieveStudent() {
+        when().
+                get("/student/{studentId}", "Student1").
+                then().
+                statusCode(HttpStatus.OK.value()).
+                body("name", Matchers.is("Ranga Karanam")).
+                body("description", Matchers.is("Hiker, Programmer and Architect"));
+    }
+
+    @Test
+    public void testRetrieveAllStudents() {
+        when().
+                get("/students").
+                then().
+                statusCode(HttpStatus.OK.value()).
+                body("name", Matchers.hasItems("Ranga Karanam", "Satish T")).
+                body("description", Matchers.hasItems("Hiker, Programmer and Architect", "Hiker, Programmer and Architect"));
     }
 }
