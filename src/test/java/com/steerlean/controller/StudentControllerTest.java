@@ -80,4 +80,15 @@ public class StudentControllerTest {
         Assert.assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
     }
 
+    @Test
+    public void testRegisterStudent() {
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(new MockHttpServletRequest()));
+        Student mockStudent = Mockito.mock(Student.class);
+
+        ResponseEntity<Void> responseEntity = studentController.registerStudent(mockStudent);
+
+        Mockito.verify(mockStudentService, Mockito.times(1)).addStudent(mockStudent);
+        Assert.assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+    }
+
 }

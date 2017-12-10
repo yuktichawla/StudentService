@@ -5,7 +5,7 @@ import com.steerlean.model.Student;
 import java.util.Map;
 
 public interface StudentRepository {
-    void saveStudent(Student person);
+    void saveStudent(Student student);
 
     void updateStudent(Student student);
 

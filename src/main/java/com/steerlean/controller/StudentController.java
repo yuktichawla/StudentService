@@ -51,4 +51,12 @@ public class StudentController {
 
         return ResponseEntity.created(location).build();
     }
+
+    @PostMapping("/students")
+    public ResponseEntity<Void> registerStudent(@RequestBody Student student) {
+        studentService.addStudent(student);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(
+                "/{id}").buildAndExpand(student.getId()).toUri();
+        return ResponseEntity.created(location).build();
+    }
 }

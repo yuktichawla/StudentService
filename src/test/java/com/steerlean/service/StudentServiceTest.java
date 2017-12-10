@@ -135,4 +135,13 @@ public class StudentServiceTest {
         Assert.assertEquals(mockNewCourse, stubStudent.getCourses().get(1));
     }
 
+    @Test
+    public void testAddStudent() {
+        Student mockStudent = Mockito.mock(Student.class);
+        studentService.addStudent(mockStudent);
+
+        Mockito.verify(mockStudent, Mockito.times(1)).setId(Mockito.anyString());
+        Mockito.verify(mockStudentRepository, Mockito.times(1)).saveStudent(mockStudent);
+    }
+
 }

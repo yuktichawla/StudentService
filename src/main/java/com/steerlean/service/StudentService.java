@@ -66,4 +66,11 @@ public class StudentService {
 
         return course;
     }
+
+    public Student addStudent(Student student) {
+        String randomId = new BigInteger(130, random).toString(32);
+        student.setId(randomId);
+        studentRepository.saveStudent(student);
+        return student;
+    }
 }
