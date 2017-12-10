@@ -6,3 +6,13 @@
 
 ##### Get enrolled courses by "Student2" 
 <http://localhost:8080/students/Student2/courses>
+
+##### Run unit tests
+```sh
+mvn clean test
+```
+
+##### Run integration-test
+```sh
+mvn clean verify -P integration-test
+```
