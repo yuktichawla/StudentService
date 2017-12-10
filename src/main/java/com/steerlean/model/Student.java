@@ -9,6 +9,9 @@ public class Student implements Serializable {
     private String description;
     private List<Course> courses;
 
+    public Student() {
+    }
+
     public Student(String id, String name, String description,
                    List<Course> courses) {
         super();

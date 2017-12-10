@@ -1,6 +1,7 @@
 package com.steerlean.controller;
 
 import io.restassured.RestAssured;
+import io.restassured.response.ValidatableResponse;
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,9 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.path.json.JsonPath.from;
 
@@ -78,5 +81,31 @@ public class ITStudentControllerTest {
                 statusCode(HttpStatus.OK.value()).
                 body("name", Matchers.hasItems("Ranga Karanam", "Satish T")).
                 body("description", Matchers.hasItems("Hiker, Programmer and Architect", "Hiker, Programmer and Architect"));
+    }
+
+    @Test
+    public void testRegisterStudent() {
+        Map<String, String> studentMap = new HashMap<>();
+        studentMap.put("id", "Student3");
+        studentMap.put("name", "Balwant Rai");
+        studentMap.put("description", "aspiring lawyer");
+        studentMap.put("courses", null);
+
+        given().
+                contentType("application/json").
+                body(studentMap).
+                when().
+                post("/students").
+                then().
+                statusCode(HttpStatus.CREATED.value());
+
+        ValidatableResponse validatableResponse = when().
+                get("/students").
+                then().
+                statusCode(HttpStatus.OK.value()).
+                body("size()", Matchers.is(3));
+
+        validatableResponse.
+                body("find {it.name == 'Balwant Rai'}.description", Matchers.is("aspiring lawyer"));
     }
 }
