@@ -5,6 +5,7 @@ node {
 
     environment {
         CREDENTIALS_ID = "44bb31cd-b259-4160-a31c-64403b8982d3"
+        AUTH_TOKEN = "git_push_hook"
     }
 
     stage('Preparation') {
