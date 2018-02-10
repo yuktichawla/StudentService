@@ -8,6 +8,7 @@ public class Student implements Serializable {
     private String name;
     private String description;
     private List<Course> courses;
+    private String trainerName;
 
     public Student() {
     }
@@ -21,6 +22,14 @@ public class Student implements Serializable {
         this.courses = courses;
     }
 
+    public String getTrainerName(){
+        return trainerName;
+    }
+    
+    public void setTrainerName(String trainerName) {
+        this.trainerName = trainerName;
+    }
+    
     public String getId() {
         return id;
     }
